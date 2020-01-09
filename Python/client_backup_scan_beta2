@@ -1,0 +1,55 @@
+# coding:utf-8
+
+import datetime
+import os
+
+# folders that store backup file
+import time
+
+folders = ['/backup/oracle/', '/backup/resources/']
+
+cmd = 'ls -lh '
+
+# yesterday date, which is to judge if new files is generated
+yesterday_date = datetime.date.today() - datetime.timedelta(days=1)
+year = yesterday_date.year
+month = yesterday_date.month
+day = yesterday_date.day
+
+
+# alias according to this machine, which should be specific and different from others
+local_name = 'SichuanUniversity'
+
+
+def scan():
+    """
+    scan folders and send infos
+    """
+    for f in folders:
+        try:
+            for file in os.listdir(f):
+                # exclude snapshot
+                if file == 'snapshot':
+                    continue
+
+                create_time = os.path.getctime(f + file)
+                file_date_month = time.localtime(int(create_time)).tm_mon
+                file_date_year = time.localtime(int(create_time)).tm_year
+                file_date_day = time.localtime(int(create_time)).tm_mday
+
+                # if there are files generated yesterday, backup process was successful
+                if file_date_year == year and file_date_month == month and file_date_day == day:
+                    file_size = os.path.getsize(f + file)
+                    file_size = str(round(file_size/float(1024*1024), 1)) + "M"
+                    info = local_name + ' ' + f + ' ' + file + ' ' + file_size
+                    os.system('echo A backup file is found, filename: %s, file size: %s, log made on %s >> '
+                              'backup_script.log' % (file, file_size, datetime.datetime.now()))
+                    # send infos to server
+                    os.system(('ssh speed@120.26.209.249 "echo ' + info + ' >> /home/speed/speed_script/backup_file.info"').encode('utf-8'))
+        except:
+            continue
+
+
+scan()
+
+
