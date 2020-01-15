@@ -23,7 +23,7 @@ if [[ $assetsPID ]] && [[ ! $psmsPID ]] && [[ -f ${assetspath#*=}/conf/Catalina/
   a=`echo ${tp#*docBase=\"}`
   cf=`echo ${a%\"*}/`
   echo "正在备份框架包。。。"
-  #cp -rp $cf /speedec/backup/$1.war$today/
+  cp -rp $cf /speedec/backup/$1.war$today/
   if [[ $? -eq 0 ]];then
     #查找文件
     find $cf -name $2 | tee replace_fileordir$today.log
@@ -78,7 +78,7 @@ elif [[ ! $assetsPID ]] && [[ $psmsPID ]] && [[ -f ${psmspath#*=}/conf/Catalina/
   a=`echo ${tp#*docBase=\"}`
   cf=`echo ${a%\"*}/`
   echo "正在备份框架包。。。"
-  #cp -rp $cf /speedec/backup/$1.war$today/
+  cp -rp $cf /speedec/backup/$1.war$today/
   if [[ $? -eq 0 ]];then
     #查找文件
     find $cf -name $2 | tee replace_fileordir$today.log
@@ -133,7 +133,7 @@ elif [[ $assetsPID ]] && [[ $psmsPID ]] && [[ -f ${assetspath#*=}/conf/Catalina/
   a=`echo ${tp#*docBase=\"}`
   cf=`echo ${a%\"*}/`
   echo "正在备份框架包。。。"
-  #cp -rp $cf /speedec/backup/$1.war$today/
+  cp -rp $cf /speedec/backup/$1.war$today/
   if [[ $? -eq 0 ]];then
     #查找文件
     find $cf -name $2 | tee replace_fileordir$today.log
@@ -188,7 +188,7 @@ elif [[ $assetsPID ]] && [[ $psmsPID ]] && [[ -f ${psmspath#*=}/conf/Catalina/lo
   a=`echo ${tp#*docBase=\"}`
   cf=`echo ${a%\"*}/`
   echo "正在备份框架包。。。"
-  #cp -rp $cf /speedec/backup/$1.war$today/
+  cp -rp $cf /speedec/backup/$1.war$today/
   if [[ $? -eq 0 ]];then
     #查找文件
     find $cf -name $2 | tee replace_fileordir$today.log
