@@ -122,3 +122,17 @@ $VALUE." | tee check_snapshot.log
 #3、to_char：select to_char(sum(price),'FM9999999990.00') into :snapshot_price from sec_assets.assets_snapshot where to_char(snapshot_date,'YYYY/MM/DD')='2019/12/31' group by snapshot_date;
 #其中9代表如果存在数字则显示数字，不存在则显示空格：0代表如果存在数字则显示数字，不存在则显示0，即占位符；
 #FM代表删除如果是因9带来的空格，则删除之；四舍五入，0.125变成了0.13，如果不要四舍五入要trunc下。
+
+#间接将变量赋值给shell变量，利用exit返回值
+#!/bin/bash
+sqlplus -S /nolog <<EOF
+set heading off feedback off pagesize 0 verify off echo off numwidth 32 
+conn sec_base/Cque_wsxzaq_db@localhost:3368/assets
+col num new_value v_num
+select count(*) num from sec_bl_assets.assets;
+exit v_num
+EOF
+#echo "$?"
+VALUE="$?"
+echo "$VALUE"
+#格式化为10个字符串长度：col num for a10
