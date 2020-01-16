@@ -75,3 +75,20 @@ echo $profession
 #剔除linux文件末尾的M
 sed -i 's/^M//g' test.sh
 windows文件传到linux上时，可能末尾出现\r,\n,^M，linux上Ctrl+v会出现^M
+
+#shell获取上上月末日期
+v_curr_rq=`date +%Y%m%d`
+v_rq=`date -d "yesterday" +%Y%m%d`
+v_lm=`date +%Y%m01`
+v_lm_rq=`date -d "${v_lm} last day" +%Y%m%d`
+v_llm_rq=`date -d "${v_lm} last month last day" +%Y%m%d`
+#当前日期
+echo ${v_curr_rq}
+#昨天日期
+echo ${v_ra}
+#本月月初
+echo ${v_lm}
+#上个月月末
+echo ${v_lm_rq}
+#上上个月末
+echo ${v_llm_rq}

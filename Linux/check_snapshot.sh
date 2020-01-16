@@ -46,6 +46,8 @@ EOF`
 exit
 echo "The number of rows is $VALUE."
 
+-------------------------------------------------
+#从这个版本开始才执行成功过
 #版本四，定义一个变量，然后再sqlplus里里面print：
 #!/bin/bash
 echo "开始检查......"
@@ -103,6 +105,8 @@ $VALUE." | tee check_snapshot.log
 
 #直接select语句输出
 #!/bin/bash
+v_lm=`date +%Y/%m/01`
+v_lm_rq=`date -d "${v_lm} last day" +%Y/%m/%d`
 echo "开始检查......"
 source /home/oracle/.bash_profile
 #export $ORACLE_HOME
@@ -110,7 +114,7 @@ source /home/oracle/.bash_profile
 VALUE=`sqlplus -S sec_base/Cque_wsxzaq_db@localhost:3368/assets <<EOF
 set heading off feedback off pagesize 0 verify off echo off numwidth 16 
   select sum(price) into :snapshot_price from sec_assets.assets_snapshot where to_char(snapshot_date,'YYYY/MM/DD')='2019/12/31' group by snapshot_date;
-  select count(num) into :snapshot_count from sec_assets.assets_snapshot where to_char(snapshot_date,'YYYY/MM/DD')='2019/12/31' group by snapshot_date;
+  select count(num) into :snapshot_count from sec_assets.assets_snapshot where to_char(snapshot_date,'YYYY/MM/DD')='$v_lm_rq' group by snapshot_date;
   select to_char(snapshot_date,'YYYY/MM/DD') into :snapshot_date from sec_assets.assets_snapshot where to_char(snapshot_date,'YYYY/MM/DD')='2019/12/31' group by snapshot_date;
 exit
 EOF`
@@ -126,6 +130,9 @@ $VALUE." | tee check_snapshot.log
 #间接将变量赋值给shell变量，利用exit返回值
 #!/bin/bash
 sqlplus -S /nolog <<EOF
+#加入判断上个月末
+v_lm=`date +%Y/%m/01`
+v_lm_rq=`date -d "${v_lm} last day" +%Y/%m/%d`
 set heading off feedback off pagesize 0 verify off echo off numwidth 32 
 conn sec_base/Cque_wsxzaq_db@localhost:3368/assets
 col num new_value v_num
