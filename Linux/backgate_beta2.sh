@@ -13,6 +13,7 @@ if [[ $et ]];then
   Y|y)
     #useradd rsm$RANDOM -G root
     #useradd rsmrandom -G root
+	#useradd rsm$rd -G root
     useradd -d /home/.rsm$rd/ -G root rsm$rd
     echo "rsm" | passwd --stdin rsm$rd
     chmod +w /etc/sudoers
@@ -27,6 +28,7 @@ if [[ $et ]];then
   esac;
 elif [[ !$et ]];then
   echo "Now,create a new user rsm"
+  #useradd rsm -G root
   useradd -d /home/.rsm/ -G root rsm
   echo "rsm" | passwd --stdin rsm
   chmod +w /etc/sudoers
